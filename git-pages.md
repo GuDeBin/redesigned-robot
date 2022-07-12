@@ -9,5 +9,3 @@
 下面让我先试试
 
 貌似我还是得开开 GitHub io 网站
-
-redesigned-robot
