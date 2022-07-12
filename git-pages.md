@@ -7,3 +7,7 @@
 他使用 git-pages 这个 npm 包，通过 gh-pages -d dist 命令来部署
 
 下面让我先试试
+
+貌似我还是得开开 GitHub io 网站
+
+redesigned-robot
