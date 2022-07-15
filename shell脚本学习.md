@@ -87,7 +87,7 @@ fi
 
 #给出一个默认的项目路径
 path="/Users/duodian/Desktop/work/miniProgram"
-
+# 这个是一个赋值与变量path
 case "$1" in
   "p")
   echo "PC项目"
@@ -106,6 +106,7 @@ case "$1" in
   path="/Users/duodian/Desktop/work/circleManAdmin"
   ;;
 esac
+# 这是一个case in esac，相当于条件分支选择
 
 #先进入项目当中
 
@@ -144,4 +145,5 @@ fi
 git push origin "$3"
 
 echo "####### 推送成功 #######"
+# 上述是git推送流程，先添加到暂存区，在提交到仓库，最后推送到远程仓库
 ```
