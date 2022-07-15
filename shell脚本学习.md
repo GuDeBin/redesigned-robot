@@ -62,3 +62,86 @@ echo "Hello World !"
 3. source 或者 . 的方式执行，这个是可以在当前的环境下执行，也就是我之前看到的科普视频推荐的方式，他的理由是解释器执行由于和当前环境有隔离，所以可能存在不可知的问题（我估计是他遇到这类问题，无法找到原因，但是换一个执行方式，就可以，可行路径为默认路径）
 
 目前是选择用 bash 解释器方式执行，这是因为我看到的都是 bash 解释器执行，在这个上面深究对当下的我没有实际意义
+
+## 实操
+
+首先是看看他人的脚本是如何编写的
+
+先解析一个 git 脚本
+
+```shell
+
+if [ ! $1 ]
+then
+  echo "####### 请输入自己的项目 #######"
+  exit;
+fi
+# 解释 这是一个流程控制，if then ，其中exit属于退出当前进程，也就是退出的意思，而fi属于if的倒写，表示if结束
+# $1表示执行命令时输入的参数，从一开始，零是执行文件名包含地址
+# 这倒也解释了为什么再用脚手架时是参数输入在命令后面
+if [ ! $2 ]
+then
+  echo "####### 请输入commit值 #######"
+  exit;
+fi
+
+#给出一个默认的项目路径
+path="/Users/duodian/Desktop/work/miniProgram"
+
+case "$1" in
+  "p")
+  echo "PC项目"
+  path="/Users/duodian/Desktop/work/web-pc"
+  ;;
+  "m")
+  echo "小程序项目"
+  path="/Users/duodian/Desktop/work/miniProgram"
+  ;;
+  "h")
+  echo "H5项目"
+  path="/Users/duodian/Desktop/work/web-h5"
+  ;;
+  "c")
+  echo "后台项目"
+  path="/Users/duodian/Desktop/work/circleManAdmin"
+  ;;
+esac
+
+#先进入项目当中
+
+cd $path
+
+echo "####### 进入自己的项目 #######"
+
+ls
+
+echo "开始执行命令"
+
+git add .
+
+git status
+
+#写个sleep 1s 是为了解决并发导致卡壳
+
+sleep 1s
+
+echo "####### 添加文件 #######"
+
+git commit -m "$2"
+
+echo "####### commit #######"
+
+sleep 1s
+
+echo "####### 开始推送 #######"
+
+if [ ! $3 ]
+then
+  echo "####### 请输入自己提交代码的分支 #######"
+  exit;
+fi
+
+git push origin "$3"
+
+echo "####### 推送成功 #######"
+```
