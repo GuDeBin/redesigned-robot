@@ -40,7 +40,7 @@ npm install --save gh-pages
     "build": "react-scripts build",
 ```
 
-这里有一个知识点，pre 在 script 中的意思是 npm script 钩子，每个 npm script 有 pre 和 post 两个钩子, pre 钩子在脚本执行前将被触发, post 则是在脚本执行后触发[参考文档](https://juejin.cn/post/6917533974285778957)
+这里有一个知识点，pre 在 script 中的意思是 npm script 钩子，每个 npm script 有 pre 和 post 两个钩子, pre 钩子在脚本执行前将被触发, post 则是在脚本执行后触发，[参考文档](https://juejin.cn/post/6917533974285778957)
 
 3. 执行 npm 命令
 
