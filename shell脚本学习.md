@@ -211,4 +211,60 @@ shell 脚本经过这些天的了解，还是比一般的编程语言简单点�
 
 2. 函数遇到问题，我无法传入循环的参数？，问题解决：原因是 shell 的函数必须在程序调用前定义好，否则无法调用
 
-3. 又遇到一个问题，我如何将 git status 的状态提取出来，现在可以使用 git status -s 命令获取简短的输出结果，也就是如果没有变动，则没有任何输出
+3. 又遇到一个问题，我如何将 git status 的状态提取出来，现在可以使用 git status -s 命令获取简短的输出结果，也就是如果没有变动，则没有任何输出，问题解决：使用反引号，也就是``，这个类似 JS 的字符串模板。在反引号里可以执行 shell 命令，我是用的是
+
+```shell
+check_push=`git status | grep "nothing to commit, working tree clean"`
+```
+
+| 运算符是可以将上一个命令的输出当作右侧命令的输入，也就是用 grep 来检查字符串是否包含 nothing to commit, working tree clean，包含意味着项目没有变动
+
+4. 后面遇到一个是提交指定的信息，git commit -m “Site updated：2022-07-22 14:30:00”，这种类似的信息，需要拼接字符串和 shell date 命令来获取系统的时间，但是需要格式其中包含的知识点有这几个：拼接字符串需要用双引号，反引号可以执行 shell 命令，但是需要格式化
+
+```shell
+git commit -m "`date +"Site updated: %Y-%m-%d %H:%M:%S"`"
+```
+
+## 最后完成
+
+```shell
+# 需要推送的项目文件目录
+
+my_list_project[0]='/home/gdb/gdb/project'
+# 需要遍历的项目文件可以一直加
+# my_list_project[0]='/home/gdb/gdb/project-2'
+
+# git-push函数
+git_push(){
+    # 进入指定目录
+    cd $1
+    printf "进入 $1 目录\n"
+
+
+
+
+    # echo $check_push
+    if [[ $check_push =~ "nothing to commit, working tree clean" ]]
+    then
+        echo "无需提交"
+    else
+        echo "需要提交，开始执行"
+        # 执行添加、提交和推送
+        git add .
+        git commit -m "`date +"Site updated: %Y-%m-%d %H:%M:%S"`"
+        #git push origin main
+    fi
+
+    echo "休息一秒"
+    sleep 1s
+    echo "休息结束"
+
+}
+
+# 循环处理
+for temp in ${my_list_project[@]}
+do
+    git_push ${temp}
+done
+
+```
