@@ -36,7 +36,7 @@ mddir
 
 该项目的文件目录如下
 
-```shell
+```
 |-- project
     |-- .gitignore # git排除文件
     |-- LICENSE # 许可证
