@@ -49,8 +49,48 @@ Drag Sources and Drop Targets
 拖拽源和拖拽目标
 
 我们现在涵盖了关于这个 DOM 的后端，item 数据和 type 代表和收集函数，通过监视器 monitors 和连接器 connectors，将你的对拖拽组件的描述注入到你的组件。但是，我们如何配置属性注入到我们的组件，我们如何在拖拽时执行 React 的副作用。用 Drag source 和 drop targets
-，这两个 React-Dnd 抽象单位。将 type、item 和副作用 side effects、收集函数 collectingyi 与你的组件一起
+，这两个 React-Dnd 抽象单位。将 type、item 和副作用 side effects、收集函数 collectingyi 和你的组件联系到一起。
 
-按照官网概述，先用一个组件 DndProvider 组件包裹需要拖拽的组件，还有一个参数 backends，按照使用场景是 HTML5 还是触摸
+如果想让你的组件可以拖放，你只需要将这个组件包裹在拖放源里 Drag Source 里即可，每一个 drag source 注册一个 type，还需要实现一个方法从组件中产生 item，它还可以选择一些方法处理 drag 和 drop 事件，这个 drag source 描述（我的觉得是定义）还可以指定 collecting 函数指定给相应的组件
 
-首先是监控组件的位置
+它区分 drop target 和 drag sources 两种，但是 drop target 可以注册多个 type
+
+我的理解是，这两个是 React-DnD 的抽象单位，用于包裹需要拖拽的组件
+
+Backends
+
+后端（是不是内部技术支持）
+
+React-DnD 使用 HTML5 drag and drop API，它可以将 drap DOM 节点包裹在框架内，当作一个整体去拖放，框外预览，等于你在移动时不需要进行任何绘图（绘制 DOM），这个 API 也是处理 drop 事件的唯一方法。
+
+HTML5 drag and drop API 无法在触摸屏上起作用。
+
+这也是为什么 HTML5 可以在 React——DnD 上实现拖放的原因，你也可以编写自己的拖放支持，传入到 React-DnD 后端。
+
+这个类库对于大部分 web 应用是足够的，还有一个触摸后端应用于移动设备。
+
+backends 与 React 相互作用，可以抽象的处理不同浏览器的 DOM 事件，尽管与 React 有相似之处，但是 React-DnD 对于 React 没有依赖性，在内部中，backends 是将 DOM 事件转化为 React-DnD 内部可以处理的 Redux 动作（也就是数据驱动）
+
+Hook vs Higher-Order Components
+
+React-DnD 包含以下几点
+
+- item 对象和 types 类型
+
+- DnD 状态变量
+
+- monitor 监视 DnD 状态变量
+
+- collector 函数将监视器的输出变成属性
+
+- connectors 连接器连接 DnD 状态和视图节点（例如 DOM 节点）
+
+功能都采用 hook 封装
+
+## 最后总结下
+
+以上述半翻译、半理解的内容来看，React-DnD 使用抽象来理解拖拽，首先用一个 item 来描述拖拽，type 定义，监视函数反馈 state，收集函数将 state 变成属性，而连接器连接着 DnD 和 node 节点，它采用的是一种容器包裹住需要拖拽功能组件，又避免干扰到原本的组件系统，做到关注点分离和解耦。
+
+## 实践一个游戏
+
+这也是教程的一部分，做一个可以拖拽的棋子，原教程中
