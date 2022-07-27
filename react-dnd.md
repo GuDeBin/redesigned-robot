@@ -137,3 +137,88 @@ React-DnD 包含以下几点
 
 一个点：我不适用 JSX 和引入 React 的话，也可以渲染 React 组件，只是在引用时是 any，而我采用 JSX，既有智能提醒，还有引入方变为 JSX.Element，而且在 JSX 中引入 React 不再是暗色，也就是未使用，目前还是采用 jsx 格式写组件，并在开头引入 React
 ，后续了解 React 的原理再来回答这个现象
+
+遇到一个问题，没有按照教程所示的显示棋盘，而是一个条状的棋格，不是按照 flex 布局。我得看看教程的 CSS
+
+难道是宽度的设置
+
+已经解决了，是没有对容器，也就是最外层的 App-div 做约束，也就是没有宽度和高度,导致内部 item 也是按照一般的顺序排列而已
+
+我删除里 App.css，而是在 App.js 中用一个 div 当作容器包裹住棋盘，然后删除 index.css 内容，增加
+
+```css
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  width: 500px;
+  margin: 50px auto;
+  overflow: auto;
+  height: 500px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+```
+
+可以继续了
+
+他设置棋子随机跳动，用的是定时执行渲染程序，也就是 index.js 的 render 函数
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom";
+import Board from "./Board";
+import { observe } from "./Game";
+
+const root = document.getElementById("root");
+
+observe((knightPosition) =>
+  ReactDOM.render(<Board knightPosition={knightPosition} />, root)
+);
+
+// Game.js
+
+export function observe(receive) {
+  const randPos = () => Math.floor(Math.random() * 8);
+  setInterval(() => receive([randPos(), randPos()]), 500);
+}
+```
+
+而我的是用 useState 设置棋子的位置，结果是越来越来快，以至于很疯狂，我估计渲染机制应该是异步的
+
+```jsx
+// App.js
+import { useState } from "react";
+import Board from "./components/Board";
+
+export default function App() {
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
+  const randPos = () => Math.floor(Math.random() * 8);
+
+  setInterval(() => {
+    setX(randPos);
+    setY(randPos);
+  }, 1000);
+
+  return (
+    <div className="container">
+      <Board knightPosition={[x, y]} />
+    </div>
+  );
+}
+```
+
+结果就是疯了
+
+我打算把 Game 的逻辑下载 App.js 里
