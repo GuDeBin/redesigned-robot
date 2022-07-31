@@ -240,8 +240,7 @@ git_push(){
     cd $1
     printf "进入 $1 目录\n"
 
-
-
+    check_push=`git status | grep "nothing to commit, working tree clean"`
 
     # echo $check_push
     if [[ $check_push =~ "nothing to commit, working tree clean" ]]
@@ -252,7 +251,7 @@ git_push(){
         # 执行添加、提交和推送
         git add .
         git commit -m "`date +"Site updated: %Y-%m-%d %H:%M:%S"`"
-        #git push origin main
+        git push origin main
     fi
 
     echo "休息一秒"
