@@ -237,6 +237,113 @@ setKnight(toX, toY); //这个是错误的
 setKnight([toX, toY]); //这个是正确的
 ```
 
+## 2022 年 7 月 30 日
+
 这个 L 型的逻辑是怎么回事呢
 
-首先棋子在现在（3，1）
+首先棋子在现在（0，6）
+按照这个逻辑来判断 L 型
+
+```js
+const canMoveKnight = (toX, toY) => {
+  const [x, y] = knightPosition;
+  const dx = toX - x;
+  const dy = toY - y;
+
+  return (
+    (Math.abs(dx) === 2 && Math.abs(dy) === 1) ||
+    (Math.abs(dx) === 1 && Math.abs(dy) === 2)
+  );
+};
+```
+
+这个逻辑的意思是当前的位置与现在的位置之差只能是 1 或者 2
+
+切换一个位置是（1，4），确实是 x 相差 1，y 相差 2
+
+再切换一个位置（2，7），确实 x 相差 2，y 相差 1
+
+也就是按照 X 轴方向是 x 相差 1，y 相差 2
+
+Y 轴则是 x 相差 2，y 相差 1
+
+突然想到一个点，这不就是一个笛卡尔坐标系吗，所谓的 L 型就是一个方向移动一步，一个方向移动 2 步，所以不是 x 就是 y。这就是为什么两个判断条件之间是或的关系，因为只要满足一个方向一步，一个方向 2 步的条件，就可以知道从事了 L 型步骤。
+
+## 添加拖拽
+
+首先是设置 DndProvider，这个需要应用程序的顶层设置，这里我选择的是 App.js 里
+
+```jsx
+return (
+  <DndProvider backend={HTML5Backend}>
+    <div className="container">
+      <Board knightPosition={knightPosition} moveKnight={moveKnight} />
+    </div>
+  </DndProvider>
+);
+```
+
+在定义一个拖拽的类型
+
+这个需要拖拽的是 knight
+
+```js
+export const ItemTypes = {
+  KNIGHT: "knight",
+};
+```
+
+真的很神奇
+
+目前棋子已经可以实现拖拽
+
+就是在需要拖拽的组件内添加一个 useDrag 的 Hook
+
+```jsx
+import React from "react";
+import { ItemTypes } from "../Constants";
+import { useDrag } from "react-dnd";
+
+function Knight() {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.KNIGHT,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
+  return (
+    <span
+      ref={drag}
+      style={{
+        fontSize: "45px",
+        fontWeight: "bold",
+        cursor: "move",
+        opacity: isDragging ? 0.5 : 1,
+      }}
+    >
+      ♘
+    </span>
+  );
+}
+
+export default Knight;
+```
+
+ref 引用的方式，前面的 isDragging 是来自后面的 collect 函数，这个函数传入的第一个参数，monitor 是监视器，现在返回一个对象，对象里有一个参数 isDragging，表示是否处于拖拽状态，而这个状态就是来自第一个 monitor 的 isDragging 属性
+
+好吧，我都快绕晕了
+
+如果我只是需要用的话，那我根本不需要了解背后的原理，直接按照最佳实践使用即可。
+
+有一个新的属性，ref，也就是引用，按照 react 文档解释
+
+> 在典型的 React 数据流中，props 是父组件与子组件交互的唯一方式。要修改一个子组件，你需要使用新的 props 来重新渲染它。但是，在某些情况下，你需要在典型数据流之外强制修改子组件。被修改的子组件可能是一个 React 组件的实例，也可能是一个 DOM 元素。对于这两种情况，React 都提供了解决办法。
+
+按照我的理解，就是代替 prop 来修改子组件的方式。也就是 react-dnd 在全局引用这个组件。我还需要更多的编码，见到更多的项目
+
+现在已经解决了拖拽 Drag source 的问题，下一个是如何实现放 drop source 的目标
+
+这个是 react 核心开发、redux 作者，也是这个拖拽库的作者之一，我滴神啊
+
+愚蠢的组件和聪明的组件，难道果断抛弃原来的组件，拯救原来的还不如直接切掉，直接从可以改造的 square 开始，重新设置 BoradSquare 函数
