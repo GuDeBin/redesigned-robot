@@ -49,7 +49,7 @@ Drag Sources and Drop Targets
 拖拽源和拖拽目标
 
 我们现在涵盖了关于这个 DOM 的后端，item 数据和 type 代表和收集函数，通过监视器 monitors 和连接器 connectors，将你的对拖拽组件的描述注入到你的组件。但是，我们如何配置属性注入到我们的组件，我们如何在拖拽时执行 React 的副作用。用 Drag source 和 drop targets
-，这两个 React-Dnd 抽象单位。将 type、item 和副作用 side effects、收集函数 collectingyi 和你的组件联系到一起。
+，这两个 React-Dnd 抽象单位。将 type、item 和副作用 side effects、收集函数 collecting 和你的组件联系到一起。
 
 如果想让你的组件可以拖放，你只需要将这个组件包裹在拖放源里 Drag Source 里即可，每一个 drag source 注册一个 type，还需要实现一个方法从组件中产生 item，它还可以选择一些方法处理 drag 和 drop 事件，这个 drag source 描述（我的觉得是定义）还可以指定 collecting 函数指定给相应的组件
 
@@ -61,7 +61,7 @@ Backends
 
 后端（是不是内部技术支持）
 
-React-DnD 使用 HTML5 drag and drop API，它可以将 drap DOM 节点包裹在框架内，当作一个整体去拖放，框外预览，等于你在移动时不需要进行任何绘图（绘制 DOM），这个 API 也是处理 drop 事件的唯一方法。
+React-DnD 使用 HTML5 drag and drop API，它可以将 drag DOM 节点包裹在框架内，当作一个整体去拖放，框外预览，等于你在移动时不需要进行任何绘图（绘制 DOM），这个 API 也是处理 drop 事件的唯一方法。
 
 HTML5 drag and drop API 无法在触摸屏上起作用。
 
@@ -346,7 +346,7 @@ ref 引用的方式，前面的 isDragging 是来自后面的 collect 函数，�
 
 这个是 react 核心开发、redux 作者，也是这个拖拽库的作者之一，我滴神啊
 
-愚蠢的组件和聪明的组件，难道果断抛弃原来的组件，拯救原来的还不如直接切掉，直接从可以改造的 square 开始，重新设置 BoradSquare 函数
+愚蠢的组件和聪明的组件，难道果断抛弃原来的组件，拯救原来的还不如直接切掉，直接从可以改造的 square 开始，重新设置 BoardSquare 函数
 
 按照作者之前的文章[演示组件和容器组件](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)
 
@@ -367,3 +367,21 @@ ref 引用的方式，前面的 isDragging 是来自后面的 collect 函数，�
 我遇到一个问题了，现在要求解决棋子落下的问题，也就是需要知道放置的位置，按照教程是采用了驱动重现渲染的 render 函数，可我采用的是事件驱动，也就是用点击事件设置 state，是通过 setState 函数来做的
 
 现在一个思路是将修改位置的函数从最顶端的 App 中一种传入到 BoardSquare
+
+## 2022 年 8 月 17 日
+
+没想到拖了这么久，分身乏术啊
+
+继续
+
+只剩下放置的动画特效
+
+首先回忆下
+
+react-dnd 这个拖拽库实现拖动特效和放置特效，简单来说就是两个 API，每个 api 包含项目和类型，收集函数和监视器，项目和类型定义拖拽物，监视和收集函数反馈位置。
+
+目前已经实现了拖，这个是在棋子内实现，一个 useDrag 的 Hook 函数，返回参数第一个是收集函数的特性，一个是该组件的 ref，我也不知道这个 ref 是个什么意思。
+
+我了个擦，我全忘了
+
+最后是还有放置时的动作，但是我不想再按照教程去做了，直接看完成的代码
