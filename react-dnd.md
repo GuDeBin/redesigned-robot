@@ -457,3 +457,29 @@ ahook 也有一个拖拽库，是不是可以用他的 api 实现一次呢
 问题原因在于无法驱动新的更新，也就是再次渲染后能力，按照教程，它是将渲染的逻辑放在组件之外，由顶端引入，其实有点 redux 的逻辑，然后将而组件只需要知道当这个逻辑（包含数据）一旦变动就要重新渲染，或者说是驱动他去改变状态值
 
 这个其实有两点，一个是在在拖拽时组件的渲染是交给 react-dnd，由它和 react 框架交换数据，而一点拖拽完成，那就告诉 react 最新的数据，渲染成最终的样子。这也是教程一开始，作者的思路。
+
+我将逻辑放在外面，也就是新的 Game，但是还是有一个有趣的发现，在 Board 的组件中，也就是 useEffect 下面 print game，结果发现在收集 setKnightPosition 的函数，教程是两个，而我的是一个，但是都可以达到目的
+
+居然只是这个区别导致的
+
+```js
+//教程的
+
+useEffect(() => {
+  game.observer(setKnightPosition);
+}, [game]);
+
+//这是我的
+
+useEffect(() => game.observer(setKnightPosition), [game]);
+```
+
+上面会执行两次，而这个不加{}的只会执行一次，箭头函数如果省略{}的话，应该是
+
+```js
+() => {
+  return game.observe(setKnightPosition);
+};
+```
+
+不是这个原因。因为加上 return 的话，和之前一样
