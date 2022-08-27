@@ -54,18 +54,18 @@ mddir
         |-- main.tsx # 起始文件
         |-- vite-env.d.ts # vite环境配置
         |-- components # 组件文件夹
-        |   |-- Flipper # 过度文件
+        |   |-- Flipper # 过度文件，组件
         |       |-- FlipContext.ts
         |       |-- Flipped.tsx
         |       |-- Flipper.tsx
         |       |-- index.ts
-        |-- pages
-            |-- Demo1.tsx
-            |-- Demo2.tsx
-            |-- Demo3.tsx
-            |-- utils.ts
-            |-- components
-            |   |-- doc-components.tsx
+        |-- pages # 页面
+            |-- Demo1.tsx # Demo1
+            |-- Demo2.tsx # Demo2
+            |-- Demo3.tsx # Demo3
+            |-- utils.ts # 通用工具文件
+            |-- components # 页面组件
+            |   |-- doc-components.tsx # 
             |-- hooks
                 |-- useSortProperty.tsx
 ```
