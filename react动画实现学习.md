@@ -65,9 +65,9 @@ mddir
             |-- Demo3.tsx # Demo3
             |-- utils.ts # 通用工具文件
             |-- components # 页面组件
-            |   |-- doc-components.tsx # 
+            |   |-- doc-components.tsx # 基础的样式组件
             |-- hooks
-                |-- useSortProperty.tsx
+                |-- useSortProperty.tsx #  封装react-dnd动画的hook库
 ```
 
 ### 其中用到的 npm 包
