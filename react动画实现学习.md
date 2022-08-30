@@ -76,4 +76,36 @@ mddir
 
 这个是关于 CSS 样式，通过看文档和实例，我总结是将关注于全局的 CSS 压缩到关注单个组件的范围内，也就是将关注点放在当下的事情上。隔断 CSS 全局，更加灵活的使用 css
 
-####
+#### lodash-es
+
+这是一个高性能的 js 工具包
+
+#### mac-scrollbar
+
+这个是一个屏幕滚动的 react 组件，作者就是这个项目的作者，有点意思，想尝试下做 npm 包
+
+#### react-dnd 与 react-dnd-html5-backend
+
+这就是 demo3 的拖拽库
+
+#### react
+
+这个不用说了，就是 react 本尊，一切的开始。
+
+#### 疑惑
+
+在 devDependencies 中的@type 类，按照我搜索的资料这些是 typescript 的 type 类库之类的，定义类型，但是我不知道这些是作者引入的，还是用 vite 社区模板直接生成的，应该是 vite 自己生成的，这个以后再去验证，现在先将其排除在外，看看有什么影响。
+
+### create-react-app
+
+```sh
+npx create-react-app my-app --template typescript
+```
+
+不过这个项目名实在是难取，找一个随机名字吧
+
+congenial-waddle
+
+适宜的摇摆走，这个 GitHub 到底是人工智能生成的还是一个简单的单词拼接
+
+这个是 GitHub 新建库时给的随机名字
