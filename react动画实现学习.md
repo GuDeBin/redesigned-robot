@@ -109,3 +109,40 @@ congenial-waddle
 适宜的摇摆走，这个 GitHub 到底是人工智能生成的还是一个简单的单词拼接
 
 这个是 GitHub 新建库时给的随机名字
+
+### 2022 年 9 月 5 日
+
+还真是慢慢走、慢慢来
+
+首先看下这个公众话文章——[前端必学的动画实现思路](https://mp.weixin.qq.com/s/SG_aswuFU2ai0M2FIo2-BA)
+
+之所以想实现一次，还是因为这类小 Demo 很有意思
+
+下面正式开始学习记录
+首先作者抛出的一个观点是，之前前端在实现动画技术时，依赖的技术主要是 animation、transition 和 requestAnimationFrame
+
+其中 requestAnimationFrame 的功能如下
+
+> 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行
+
+> [网址](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame)
+
+按照作者之后的描述，一个可添加的数字的随机乱序列表，直觉的实现思路是：将这些数字的 DOM 节点用绝对定位来布局，数字变化后计算 top、left 的值，再配合 transition 实现该动画，这种方式看似简单，其实内部要维护各种位置信息，所有坐标都需要手动管理，相当繁琐，非常不利于后期扩展。
+
+这里就提出一个实现思路，也就是 FLIP
+
+FLIP 是 First、Last、Invert 和 Play 的首字母
+
+First：涉及动画元素的初始状态（比如位置、缩放、透明等）
+
+Last：涉及动画元素的最终状态
+
+Invert：这一步为核心，我理解是运动的相对量，也就是 dX，但是在 DOM 元素改变后并不是立即变化，而是由浏览器集中延迟到下一帧进行统一渲染，所以有一个中间时间，也就是 DOM 位置信息改变了，而浏览器还没有渲染。这个中间时间我们可以用来实现 Invert 过程。作者举例几个实现的 API，分别是浏览器的 setTimeout、React 的 useEffect 和 Vue 的 nextTick
+
+Play：这个从 Invert 到最终状态，也就是动画效果实现阶段，当有了两个点的位置信息，中间的过度状态就可以使用 transition 实现，作者使用的是 Web Animation API 实现，好处是动画执行过程中不会添加 CSS 到 DOM 上，相当干净（我没能理解这个干净，意思是只渲染动画的 DOM 不进一步影响样式）
+
+### 实现
+
+这里首先需要记录 First 和 Last 的位置，计算 Invert 的偏差，用 Map，也就是字典来存储，作者新增的一个方法来创建前后快照
+
+这里有一个知识点我并不太理解，ref，这篇是我关于[ref 的知识总结](./useRef.md)
