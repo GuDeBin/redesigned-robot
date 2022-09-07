@@ -146,3 +146,27 @@ Play：这个从 Invert 到最终状态，也就是动画效果实现阶段，�
 这里首先需要记录 First 和 Last 的位置，计算 Invert 的偏差，用 Map，也就是字典来存储，作者新增的一个方法来创建前后快照
 
 这里有一个知识点我并不太理解，ref，这篇是我关于[ref 的知识总结](./useRef.md)
+
+反复看了几遍才明白其中的逻辑
+
+首先，一个列表，再有一个创建子元素的集合字典，这里有一个知识点，map 也有原型方法，也就是 forEach 遍历各个元素，参数是一个回调函数，函数有两个参数，一个元素的值和对应的键。
+
+这里有一个方法，用于生成快照
+
+```js
+function createChildElementRectMap(nodes: HTMLElement | null | undefined) {
+  if (!nodes) {
+    return new Map();
+  }
+  const elements = Array.from(nodes.childNodes) as HTMLElement[];
+  // 使用节点作为 Map 的 key 存储当前快照，下次直接用 node 引用取值，相当方便
+  return new Map(elements.map((node) => [node, node.getBoundingClientRect()]));
+}
+```
+
+执行逻辑如下
+
+1. 使用一个 lastRef 来引用当前的 DOM
+2. 新建一个快照 map 生成函数
+3. 在点击事件的函数中将之前的 dom 信息，但是在此之前将使用 setData 将数组添加一条。此时虽然驱动 UI 的数据已经改变，但是 UI 还没有渲染。
+4. 在 useLayoutEffect 中，将改变后的 DOM 通过快照生成函数
