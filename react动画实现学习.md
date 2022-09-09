@@ -170,3 +170,20 @@ function createChildElementRectMap(nodes: HTMLElement | null | undefined) {
 2. 新建一个快照 map 生成函数
 3. 在点击事件的函数中将之前的 dom 信息，但是在此之前将使用 setData 将数组添加一条。此时虽然驱动 UI 的数据已经改变，但是 UI 还没有渲染。
 4. 在 useLayoutEffect 中，将改变后的 DOM 通过快照生成函数
+5. 遍历之前的快照，并进行对比，计算出 invert，并计算出位移 transition，创建一个关键帧 keyframes，在使用 web animate 执行动画。
+
+这里说下 animate 这个 API，两个参数，一个是关键帧，也就是过程动画的两个状态，还有就是一个动画执行的配置函数。
+
+开始复刻下
+
+这里作者使用的是 style-components，我不太喜欢这个
+
+果然遇到 typescript 的问题，也就是类型，有些 npm 包并不支持 typescript，需要额外的 type，这个[TypeScript](./TypeScript.md)中。
+
+有个想法，我实在是不太喜欢这个 style-components，可以尝试原子化的 css，也可以直接用最原始的方式，行内样式
+
+缺少一个 box-sizing: border-box 的全局样式，我直接写在 App.css 中，有点强迫证，犹豫不决的放在哪好，其实一个原则，能达到目的即可
+
+第一个直接实现并没有太多难以理解的难点
+
+按照 first、last、invert 和 play，记录下 first 和 last，计算出 invert，在执行 paly，只要将 React 的渲染的顺序搞明白，就可以直接在其中加入和这些逻辑，现在是一个元素改变后到浏览器渲染存在三个阶段，setState、render 和 effect，记录下 first 的逻辑在 setState 中，将计算 invert 和 paly 放在 useLayoutEffect 中，最后在浏览器渲染开始，就出现动画逻辑。
