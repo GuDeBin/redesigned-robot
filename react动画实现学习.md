@@ -187,3 +187,52 @@ function createChildElementRectMap(nodes: HTMLElement | null | undefined) {
 第一个直接实现并没有太多难以理解的难点
 
 按照 first、last、invert 和 play，记录下 first 和 last，计算出 invert，在执行 paly，只要将 React 的渲染的顺序搞明白，就可以直接在其中加入和这些逻辑，现在是一个元素改变后到浏览器渲染存在三个阶段，setState、render 和 effect，记录下 first 的逻辑在 setState 中，将计算 invert 和 paly 放在 useLayoutEffect 中，最后在浏览器渲染开始，就出现动画逻辑。
+
+其实我不太明白的是，这个每次操作都需要手动更新快照什么意思，对于手动这个的理解是重置吗，还是计算 invert
+
+下一步实践是将功能封装程 Hook
+
+作者提出封装的需求
+
+1. 数据变化后自动执行动画
+2. 可以不关心任何动画逻辑
+3. 不要限制 DOM 结构
+4. 用法简单
+5. 性能要好
+
+第一部应该是将 first 和 last 快照生成，从操作 setData 中转移出来，而 useLayoutEffect 的逻辑也抽离出来，但是后面的组件封装触及到我的知识盲区。再看文章已经没有什么启发意义，在知道基本的逻辑后，下一步其实就是如何和 React 的机制结合。
+
+突然发现一个点，直接实现版本里没有重置这个功能，我一开始理解是需要重新设置为初始值，但是无法读取之前元素的 left 属性，这个应该是因为设置为初始值时，之前的 DOM 已经被删除，没有了之前的元素信息，也就是无法读取，不过这个应该只是一个判断的问题，为什么作者没有去做，还是这个就是手动更新的意思，就是加了可以重置功能吗
+
+还是继续封装
+
+第一疑问，为啥要这样
+
+```js
+export * from "./Flipper";
+export * from "./Flipped";
+export * from "./FlipContext";
+
+export { default as Flipper } from "./Flipper";
+export { default as Flipped } from "./Flipped";
+```
+
+后面明明只是用下面两个 API
+
+还有一个，就是，这个导入导出，是将多个模块的导入到一个父模块，再由父模块导出，实践下
+
+遇到第一个概念——Context，这个就是一个代替组件传递 prop 的大号组件，更加灵活而已。
+
+还有一个——MutableRefObject，这个搜索找到的一个[解释](https://cloud.tencent.com/developer/article/1901142)
+
+useRef 返回的对象就是 MutableRefObject，恰如其名，这个就是一个可变的引用对象
+
+又出现一个 memo，按照官网这是一个高阶组件，在相应 props 或者 state 没有改变时不会再次渲染，这个和我之前用的 useMemo 不同，网上找了一圈还是找到一个翻译的解释，按照我的理解这个应该是这么一个意思，memo 是一个高阶组件，是按照组件的逻辑来做性能优化，而 useMemo 是用更细的粒度去做优化，也就是相应的依赖值没有变化，就不会驱动相关函数渲染，[文章地址](https://juejin.cn/post/6991837003537088542)
+
+cloneElement 这个 API
+
+最开始的方式是通过原生方法遍历 DOM，因此我们只能限制子节点一个层级，并且操作方式也脱离的 React 的编写模型，加以改进可以使用 Context 来通信存储：
+
+这是原文，也就是在 useLayoutEffect 中遍历之前的 DOM 节点，并按照计算出来的 invert 来执行 play，作者的意思是这种方式只能遍历子节点，操作方法脱离了 react 的编写模型，那么，react 的编写模型是什么
+
+按照 FlipContext 中的代码逻辑，结合 createContext 的作用，创建一个组件，我觉得应该从组件的角度去思考 Context，也就是它包裹的子组件甚至更深的嵌套，这解释了我为什么没有在 FlipContext 中看到具体的状态值，只是一个架子。
