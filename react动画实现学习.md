@@ -236,3 +236,11 @@ cloneElement 这个 API
 这是原文，也就是在 useLayoutEffect 中遍历之前的 DOM 节点，并按照计算出来的 invert 来执行 play，作者的意思是这种方式只能遍历子节点，操作方法脱离了 react 的编写模型，那么，react 的编写模型是什么
 
 按照 FlipContext 中的代码逻辑，结合 createContext 的作用，创建一个组件，我觉得应该从组件的角度去思考 Context，也就是它包裹的子组件甚至更深的嵌套，这解释了我为什么没有在 FlipContext 中看到具体的状态值，只是一个架子。
+
+有一个思考总结下
+
+react 是如何构建的，目前看到的代码，将各个逻辑分解，单个组件的逻辑，容器组件的逻辑和贯穿其中的数据流，这一切是如何组织起来的？
+
+还有这几个 Hook，useRef、useMemo、useContext 和 useLayoutEffect，以及 memo 和 createContext
+
+useRef 是一个全局的引用，可以挂载在组件上，useMemo 是一个优化手段，只有在依赖项更新才会执行，useContext 是一个全局的数据流，只有在 context 组件值更新时才会触发，useLayoutEffect 是一个收集全局副作用的函数，并在全局渲染前执行，memo 是一个高阶组件，在 prop 更新时刷新，createContext 则是创建 context 这个全局数据流组件
