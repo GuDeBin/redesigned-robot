@@ -294,4 +294,10 @@ lastRectRef.current = createChildElementRectMap(listRef.current);
 
 而第二个 Demo，也是同样的逻辑，但是按照 react 抽离逻辑，将动画和操作分离，在使用时只用将涉及动画的数据传入组件即可
 
-这里有三个组件，分别是
+这里有三个组件，分别是 flipped、flipper 和 flipContext，突然想到这三个的层级是这样，flipper 是父组件，flipped 是子组件，而 flipContext 则是数据通信，将数据放置在组件外。
+
+用文字去梳理则真的比我在大脑去构建容易的多
+
+那三个组件按照这个分离的意义在哪呢，关注点分离，那他们的关注点分别是什么
+
+flipper 是关注什么，全局的比较快照，计算 invert，执行 play，如何实现的呢，
