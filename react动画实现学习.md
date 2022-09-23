@@ -277,3 +277,21 @@ lastRectRef.current = createChildElementRectMap(listRef.current);
 ```
 
 这就是一个同样的逻辑在两处复用但没有任何联系，一旦逻辑修改，那就是 ctrl+F 全局寻找了，也是 Dan 在发布 Hook 时说的 class 的问题之一。
+
+我需要理一下
+
+按照之前的 Demo1 的逻辑，也是动画的逻辑，就是 first、last 和 invert，再用 paly 执行，这里就需要按照 react 的执行逻辑来分别获取 first 和 last，计算 invert 后执行 play，这里其实有一个我没能太搞明白的点，react 的执行逻辑，按照作者的理解是 state-render-layoutEffect，也就是数据更改-渲染 DOM-全局副作用或者生命周期，最后才交给浏览器进行绘制。
+
+按照动画的 FLIP 的逻辑结合 react 的机制，第一个 Demo 中的动画实现在我的理解下是如下的
+
+首先将生成快照，也就是 First 和 last 的 DOM，将这个函数抽离出来，在组件内使用 useRef，这个 hook 我理解是一个万能牌，一个可变的 js 对象，可以存储任何可变值，而且它可以挂载在 DOM 节点中，current 就像一个钩子
+
+其次是 useRef 还是组件全生命周期内的变量，这就是。。。。。为啥不直接用一个变量呢，或者 useState，这个可能是因为组件生命周期原因吧。
+
+还有就是 useLayoutEffect 这个 hook，我没能明白这个，之后再 react 的官网上了解到一些，这个类似 effect，但是 effect 是在浏览器完成布局和绘制之后在一个延迟事件中被调用，但是 layoutEffect 则是在所有的 DOM 变更后同步执行。
+
+这也就是能解释下这个 FLIP 的逻辑是如何拆解程 react 的逻辑，首先一个 useRef 钩住 DOM 元素，另一个 useRef 作为对比快照，一个数组来渲染子元素，当 add 方法添加十个元素后，将触发 react 渲染机制，并在 state 时将原有的元素状态赋值到对比快照，在计算完 DOM 后，触发 layoutEffect，开始对比两个，将 invert 计算出来，并渲染动画
+
+而第二个 Demo，也是同样的逻辑，但是按照 react 抽离逻辑，将动画和操作分离，在使用时只用将涉及动画的数据传入组件即可
+
+这里有三个组件，分别是
