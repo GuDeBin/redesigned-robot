@@ -301,3 +301,15 @@ lastRectRef.current = createChildElementRectMap(listRef.current);
 那三个组件按照这个分离的意义在哪呢，关注点分离，那他们的关注点分别是什么
 
 flipper 是关注什么，全局的比较快照，计算 invert，执行 play，如何实现的呢，
+
+还是顺序，我不明在这个组件的渲染顺序，我记得应该是子组件先渲染，在用到父组件上，在这个 Demo 上，我能猜到她的逻辑吗
+
+还是
+
+我有点不想再继续下去了，这个逻辑有点超出我应用的范围，也就是我懂了之后又能直接写出来吗
+
+还就是我知道她的渲染顺序怎么样呢
+
+还是把之前一篇文章抄一遍自省下
+
+[新拾取的 6 个习惯和方法](https://mp.weixin.qq.com/s/fGYFE3k_P9CiHDJyZUM5IQ)
