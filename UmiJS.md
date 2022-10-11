@@ -19,3 +19,33 @@
 在希望读者自己完成的章节中，我只有基本的逻辑，至于如何实现实在是一篇空白，果然是一个 HelloWorld 仔
 
 还是多编写代码
+
+## examples
+
+ant-design-pro
+
+UmiJS
+
+UmiMax
+
+三者的关系
+
+我的理解是 UmiJS 是底座，是一个在 react 延申出的一整套技术框架，有着自己对前端理解和日常业务中逻辑的抽离后形成一个框架，与 NextJS 在同一个层面，他有约束，但是并不是决定的
+
+我应该说的简单点，在 react 的生态圈里诞生里 UmiJS，在 UmiJS 的实践中摸索出 UmiMax，然后在 UmiJS 和 ant design 的基础上诞生了最佳实践 Ant design pro 这个中后台前端/设计
+
+也就是说，ant-design-pro 是中后台的最佳实践，而 UmiMax 是 Umi 前端的最佳实践，感觉 UmiMax 比 ant-design-pro 使用的范围更加全面，UmiJS 是这一切的基础
+
+## 有个想法
+
+我之前 fork 鱼皮的前端面试鸭，他是以 ant-design-pro 为基座做的，其实应该是删除了大部分中后台的示例代码，因为面试鸭是面向客户端的，不可能采用导航页面，我是不是可以用 UmiMax 来重写这个网站，并作些其他的改动呢
+
+还有，我对比了几个 CLI 工具生成的基本框架，分别是
+
+1. ant-design-pro umi3 simple
+2. ant-design-pro umi3 complete
+3. ant-design-pro umi4
+4. umi simple
+5. Umi@Max Ant Design Pro
+
+这五个有点奇特，完整的组件页面只有第二个，但是 npm 依赖已经安装不上去了，但是我可以用其他的，也就是其他的 simple 来搭起来一个完整的后台框架
