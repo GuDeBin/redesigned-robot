@@ -49,3 +49,5 @@ UmiMax
 5. Umi@Max Ant Design Pro
 
 这五个有点奇特，完整的组件页面只有第二个，但是 npm 依赖已经安装不上去了，但是我可以用其他的，也就是其他的 simple 来搭起来一个完整的后台框架
+
+但是我发现在 UmiJS 的 GitHub 上的 example 也是有个一例子，我有点不知道怎么抉择，还是将 UmiJS 整个下载到本地
