@@ -91,3 +91,7 @@ Tailwind CSS 插件，这个就是集成支持 Tailwind CSS 的插件，可是 A
 moment2dayjs 插件，按照描述，只是用来替换 momentJs 的，UmiJS 只是将自己的配置再次转化为相关插件的配置吗
 
 Module Federation 插件，这个是 webpack5 推出的在应用程序之间共享代码的新方法，这个我还真的不知道怎么回事
+
+再看看这个脚手架生成的 Demo
+
+它是一个建议的后台样式，左侧的
