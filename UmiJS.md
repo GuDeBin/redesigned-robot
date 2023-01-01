@@ -103,3 +103,58 @@ Module Federation 插件，这个是 webpack5 推出的在应用程序之间共�
 UmiJs 的插件是做什么用的呢
 
 学习的姿势貌似不对啊
+
+国际化貌似不行啊
+
+```js
+import { useIntl } from "@umijs/max";
+```
+
+无法导出这个，好像这里面就没有相应的插件
+
+并不是不存在插件，而是不熟悉 umi 的机制，配置
+
+先说下解决方式
+
+UmiMax
+
+这个需要在配置文件，.umirc.ts 中新增
+
+```js
+export default defineConfig({
+  locale: {},
+});
+```
+
+在启动 pnpm dev 后，umi 应该是读取到配置文件更改，自动在 src/.umi 文件下生成对应插件的文件，而系统也会将相应的插件按需读取到系统中
+
+而 Simple App，也就是我定义的 umi 则需要两个步骤
+
+```sh
+pnpm i @umijs/plugins
+```
+
+在配置文件.umirc.ts 中新增两条
+
+```js
+export default defineConfig({
+  plugins: ["@umijs/plugins/dist/locale"],
+  locale: {},
+});
+```
+
+在启动 pnpm dev 后如同 UmiMax 一样，按需开启插件
+
+这也算一种按需读取和配置文件的方式，一切从 umi 开启
+
+不过，多个插件呢
+
+解决了，直接在 plugins 后的数组添加地址
+
+```js
+plugins: ["@umijs/plugins/dist/locale", "@umijs/plugins/dist/antd"],
+```
+
+有一个插曲，那就是在没有安装 antd 时，开启 antd 插件，被识别出来，直接提示错误
+
+这是不是意味着，必须在 dev 模式下开发呢
