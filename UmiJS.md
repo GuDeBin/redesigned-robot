@@ -158,3 +158,11 @@ plugins: ["@umijs/plugins/dist/locale", "@umijs/plugins/dist/antd"],
 有一个插曲，那就是在没有安装 antd 时，开启 antd 插件，被识别出来，直接提示错误
 
 这是不是意味着，必须在 dev 模式下开发呢
+
+## 2023 年 1 月 2 日
+
+在 umi 里有两个配置文件，一个是 config，另一个是.umirc.ts，为什么会有两个，甚至是为啥不坚持 config 呢
+
+umi 默认使用者水平不是新手
+
+这个配置系统确实有点挠头
