@@ -166,3 +166,7 @@ plugins: ["@umijs/plugins/dist/locale", "@umijs/plugins/dist/antd"],
 umi 默认使用者水平不是新手
 
 这个配置系统确实有点挠头
+
+## 2023 年 1 月 3 日
+
+单单是如何使用就吃不完，用好，个性化定制真是遥遥无期啊
