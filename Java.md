@@ -36,4 +36,4 @@ Java，我来了
 
 ## 开发环境
 
-设置开发见[Java 开发环境](../%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%B8%8E%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/Java%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.md)
+设置开发见[Java 开发环境](https://github.com/GuDeBin/fluffy-waffle/blob/main/Java%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.md)
