@@ -37,3 +37,13 @@ Java，我来了
 ## 开发环境
 
 设置开发见[Java 开发环境](https://github.com/GuDeBin/fluffy-waffle/blob/main/Java%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.md)
+
+## 简单实现一个科学计算器
+
+原项目[Java-Calculator](https://github.com/everglow0/Java-Calculator)
+
+在看了菜鸟教程的[Java 教程](https://www.runoob.com/java/java-tutorial.html)，说实话，有点无聊，倒不是教程无聊，菜鸟的教程精炼程度一直都是一绝，是 Java 的语法实在无聊，和之前的 C#，甚至 JavaScript 都基本一致，我在没有看完的前提下做了菜鸟的 Java 测验，居然猜对大半。不说了，直接上一个小教程去了解，这就是简单科学计算器
+
+在码代码时对程序语言的理解学习是最快也是最深的
+
+这个基本上把 Java 的基本教给我了，我也对 Java 这种静态、强类型的语言很有兴趣，尤其是他的生态实在是太大、太丰富了。
